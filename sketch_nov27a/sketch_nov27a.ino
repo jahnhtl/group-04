@@ -1,9 +1,11 @@
 int IN1 = 4;
 int IN2 = 7;
 int IN3 = 5;
-int IN4 = 6;
-int Button =8;
-int ButtonState;
+int IN4 = 6; 
+int StartButton = 8;
+int StopButton = 9;
+int StartButtonState;
+int StopButtonState;
 
 void setup()
 {
@@ -13,27 +15,30 @@ void setup()
   pinMode(IN2, OUTPUT);
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
-  pinMode(Button, INPUT);
-
- 
+  pinMode(StartButton, INPUT_PULLUP);
+  pinMode(StopButton, INPUT_PULLUP);
 }
 
 void loop()
 {
- 
- // if(digitalRead(Button) == LOW){
+  StartButtonState = digitalRead(StartButton);
+  StopButtonState = digitalRead(StopButton);
 
-   
- 
+  if (StartButtonState == LOW) {
+    // Starte die Motoren
     analogWrite(IN1, 255);
     analogWrite(IN2, 0);
     analogWrite(IN3, 0);
     analogWrite(IN4, 255);
-    delay(5000);
-   
-    //analogWrite(IN1, 0);
-    //analogWrite(IN2, 0);
-    //analogWrite(IN3, 0);
-    //analogWrite(IN4, 0);
-    //delay(2000);
+    //delay(5000);
   }
+
+  if (StopButtonState == LOW) {
+    // Stoppe die Motoren
+    analogWrite(IN1, 0);
+    analogWrite(IN2, 0);
+    analogWrite(IN3, 0);
+    analogWrite(IN4, 0);
+    //delay(500);
+  }
+}
