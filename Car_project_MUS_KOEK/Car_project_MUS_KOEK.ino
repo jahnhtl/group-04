@@ -55,7 +55,7 @@ void loop()
     if ( leftDistance < 30 )
     {
       analogWrite(IN1, 0);
-      analogWrite(IN2, 50);
+      analogWrite(IN2, 100);
       analogWrite(IN3, 255);
       analogWrite(IN4, 0);
     }
@@ -63,7 +63,7 @@ void loop()
     {
       analogWrite(IN1, 0);
       analogWrite(IN2, 255);
-      analogWrite(IN3, 50);
+      analogWrite(IN3, 100);
       analogWrite(IN4, 0);
     }
   }
