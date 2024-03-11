@@ -1,4 +1,7 @@
 #include <SharpIR.h>
+#define IR_SENSOR_FRONT  A2
+#define IR_SENSOR_RIGHT  A1
+#define IR_SENSOR_LEFT  A0
 
 int IN1 = 4;
 int IN2 = 7;
@@ -14,8 +17,13 @@ int StopButtonState;
 SharpIR LeftSensor(SharpIR::GP2Y0A21YK0F, A0);
 SharpIR RightSensor(SharpIR::GP2Y0A21YK0F, A1);
 
+uint16_t ir_sensor_front_raw, ir_sensor_right_raw, ir_sensor_left_raw;
+uint16_t ir_sensor_front_new, ir_sensor_right_new, ir_sensor_left_new;
+
 void setup()
 {
+
+  
   // Set the output pins
   Serial.begin(115200);
   pinMode(IN1, OUTPUT);
@@ -37,6 +45,30 @@ void loop()
 
   int leftDistance = LeftSensor.getDistance();
   int rightDistance = RightSensor.getDistance();
+
+  ir_sensor_front_raw = analogRead(IR_SENSOR_FRONT);
+ir_sensor_front_new = (uint16_t) (16256 / (ir_sensor_front_raw + 22.8)) -8;
+
+if(ir_sensor_front_new > 150)
+  ir_sensor_front_new = 151;
+else if(ir_sensor_front_new < 20)
+  ir_sensor_front_new = 19;
+
+ir_sensor_right_raw = analogRead(IR_SENSOR_RIGHT);
+ir_sensor_right_new = (uint16_t) (6000 / (ir_sensor_right_raw - 6.89)) -4;
+
+if(ir_sensor_right_new > 80)
+  ir_sensor_right_new = 81;
+else if(ir_sensor_right_new < 10)
+  ir_sensor_right_new = 9;
+
+ir_sensor_left_raw = analogRead(IR_SENSOR_LEFT);
+ir_sensor_left_new = (uint16_t) (6000 / (ir_sensor_left_raw - 6.89)) -4;
+
+if(ir_sensor_left_new > 80)
+  ir_sensor_left_new = 81;
+else if(ir_sensor_left_new < 10)
+  ir_sensor_left_new = 9;
 
   if (StartButtonState == LOW) {
     fahren = 1;
